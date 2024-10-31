@@ -12,10 +12,13 @@ function Signup() {
     e.preventDefault(); // Prevent default form submission behavior
 
     try {
-      const response = await axios.post("http://localhost:8000/signup", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://miniproject-0.onrender.com/signup",
+        {
+          username,
+          password,
+        }
+      );
 
       console.log("Signup response:", response.data); // Log the response data
 

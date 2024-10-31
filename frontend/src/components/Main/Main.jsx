@@ -29,7 +29,7 @@ function Home() {
   }
   function uploadImage() {
     axios
-      .post("http://localhost:8000/upload-image", {
+      .post("https://miniproject-0.onrender.com/upload-image", {
         image, // Only sending image data
         username: location.state.id,
         service,
