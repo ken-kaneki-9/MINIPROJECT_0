@@ -6,6 +6,8 @@ function Home() {
   const [image, setImage] = useState("");
   const [service, setService] = useState(""); // New state for service
   const [contact, setContact] = useState(""); // New state for contact
+  const navigate = useNavigate();
+
   const [priceRange, setPriceRange] = useState(""); // New state for price range
   const servicesList = [
     "Photography",
@@ -43,7 +45,7 @@ function Home() {
           setService("");
           setContact("");
           setPriceRange("");
-          window.location.replace("/hero");
+          navigate("/hero");
         } else {
           alert("Image upload failed");
         }
