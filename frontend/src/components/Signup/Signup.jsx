@@ -38,26 +38,38 @@ function Signup() {
 
   return (
     <div className="signup">
-      <h1>Signup</h1>
-      <form action="POST">
-        <input
-          type="text"
-          onChange={(e) => {
-            setUsername(e.target.value); // Set username
-          }}
-          placeholder="Username"
-          required
-        />
-        <input
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value); // Set password
-          }}
-          placeholder="Password"
-          required
-        />
-        <input type="submit" onClick={submit} />
-      </form>
+      <h1 className="logoo">Signup</h1>
+      <div className="postt">
+        <form action="POST">
+          <div className="input-field">
+            <input
+              type="text"
+              onChange={(e) => {
+                setUsername(e.target.value); // Set username
+              }}
+              required
+              placeholder="username"
+            />
+            {/* <label htmlFor="">Enter Username</label> */}
+          </div>
+          <div className="input-field">
+            <input
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value); // Set password
+              }}
+              required
+              placeholder="password"
+            />
+          </div>
+          {/* <label htmlFor="">Enter Password</label> */}
+          <input type="submit" className="log-sub" onClick={submit} />
+
+          {/* <button type="submit" onClick={submit}>
+          Sign Up
+        </button> */}
+        </form>
+      </div>
       <br />
       <p>OR</p>
       <br />

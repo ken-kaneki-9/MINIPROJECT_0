@@ -41,13 +41,54 @@ const newSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  rating: {
+    type: [Number], // Array of ratings
+    default: [], // Default to an empty array
+  },
+  averageRating: { type: Number, default: 0 },
 });
 
-const collection = mongoose.model("usersdata", newSchema);
+const collection = mongoose.model("usersdatas", newSchema);
 
 // app.get("/", (req, res) => {
 //   res.send("Hello World!"); // Example response for root route
 // });
+app.post("/submit-review", async (req, res) => {
+  const { usernameToRate, rating } = req.body; // Get the username to rate
+
+  try {
+    const userToRate = await collection.findOne({ username: usernameToRate }); // Find the user to rate
+
+    if (!userToRate) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Initialize rating array if it doesn't exist
+    if (!userToRate.rating) {
+      userToRate.rating = [];
+    }
+
+    // Add the new rating to the user's ratings array
+    userToRate.rating.push(rating);
+    userToRate.averageRating = calculateAverageRating(userToRate.rating);
+
+    await userToRate.save(); // Save changes to the user being rated
+    res
+      .status(200)
+      .json({ message: "Rating submitted successfully", userToRate });
+  } catch (error) {
+    console.error("Error submitting rating:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Helper function to calculate the average rating
+function calculateAverageRating(ratings) {
+  if (ratings.length === 0) return 0;
+  const total = ratings.reduce((acc, rating) => acc + rating, 0);
+  return total / ratings.length;
+}
+
 app.post("/upload-image", async (req, res) => {
   const { image, username, service, contact, priceRange } = req.body;
 

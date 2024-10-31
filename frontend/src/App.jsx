@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Change Switch to Routes
-import "./App.css";
 import Login from "./components/Login/Login.jsx";
 import Signup from "./components/Signup/Signup.jsx";
 import Main from "./components/Main/Main.jsx";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
+import "./Login.css";
 function Login() {
   const history = useNavigate();
 
@@ -35,25 +35,28 @@ function Login() {
 
   return (
     <div className="login">
-      <h1>Login</h1>
-
-      <form action="POST">
-        <input
-          type="name"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          placeholder="username"
-        />
-        <input
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          placeholder="Password"
-        />
-        <input type="submit" onClick={submit} />
-      </form>
+      <h1 className="logo">Login</h1>
+      <div className="post">
+        <form action="POST">
+          <input
+            type="name"
+            className="inp"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            placeholder="username"
+          />
+          <input
+            type="password"
+            className="pass"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            placeholder="Password"
+          />
+          <input type="submit" className="sub" onClick={submit} />
+        </form>
+      </div>
 
       <br />
       <p>OR</p>
