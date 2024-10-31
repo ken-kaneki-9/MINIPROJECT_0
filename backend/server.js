@@ -4,7 +4,11 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://miniproject-0-1-0-1.onrender.com", // replace with your actual frontend URL
+  })
+);
 app.use(express.json({ limit: "10mb" })); // Set the limit to your required size, like 10mb or 20mb
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
