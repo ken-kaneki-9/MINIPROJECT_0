@@ -74,6 +74,12 @@ function Signup() {
       <p>OR</p>
       <br />
       <Link to="/">Login Page</Link> {/* Link to the login page */}
+      <br />
+      <p>
+        if you want just simply see the data not create one
+        <Link to="/hero">click here</Link>{" "}
+      </p>{" "}
+      {/* Link to the login page */}
     </div>
   );
 }
