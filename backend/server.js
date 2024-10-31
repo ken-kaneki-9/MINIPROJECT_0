@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -8,14 +9,12 @@ app.use(express.json({ limit: "10mb" })); // Set the limit to your required size
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 mongoose
-  .connect("mongodb://0.0.0.0:27017/MINIPROJECT")
-  .then(() => {
-    console.log("mongodb connected");
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-  .catch(() => {
-    console.log("failed");
-  });
-
+  .then(() => console.log("MongoDB connected successfully!"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 const newSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -210,7 +209,7 @@ app.get("/getUser", async (req, res) => {
     res.status(500).json("Error fetching user data");
   }
 });
-
-app.listen(8000, () => {
-  console.log("port connected");
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
