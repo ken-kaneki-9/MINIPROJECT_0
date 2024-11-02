@@ -13,7 +13,8 @@ function Login() {
 
     try {
       await axios
-        .post("https://miniproject-0.onrender.com/", {
+        // .post("https://miniproject-0.onrender.com/", {
+        .post("http://localhost:8000/", {
           username,
           password,
         })

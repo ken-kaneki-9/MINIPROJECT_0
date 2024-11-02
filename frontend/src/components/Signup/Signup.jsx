@@ -13,7 +13,8 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "https://miniproject-0.onrender.com/signup",
+        // "https://miniproject-0.onrender.com/signup",
+        "http://localhost:8000/signup",
         {
           username,
           password,

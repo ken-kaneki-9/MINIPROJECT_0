@@ -12,7 +12,8 @@ function DataDisplay() {
 
   const fetchData = () => {
     axios
-      .get("https://miniproject-0.onrender.com/fetch-data")
+      // .get("https://miniproject-0.onrender.com/fetch-data")
+      .get("http://localhost:8000/fetch-data")
       .then((res) => {
         setData(res.data);
         // Initialize ratings state with service IDs and empty ratings
@@ -33,7 +34,8 @@ function DataDisplay() {
       const ratingValue = parseInt(rating, 10); // Ensure rating is an integer
 
       const response = await axios.post(
-        "https://miniproject-0.onrender.com/submit-review",
+        // "https://miniproject-0.onrender.com/submit-review",
+        "http://localhost:8000/submit-review",
         {
           usernameToRate, // Pass the username of the user being rated
           rating: ratingValue, // Include the rating value
