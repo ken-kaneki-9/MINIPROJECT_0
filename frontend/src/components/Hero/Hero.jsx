@@ -130,7 +130,7 @@ function DataDisplay() {
                   className="submit_btn"
                   onClick={() => handleDelete(item._id)}
                 >
-                  Delete
+                  Delet
                 </button>
               )}
             </div>
