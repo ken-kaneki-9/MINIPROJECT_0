@@ -6,12 +6,15 @@ function DataDisplay() {
   const [data, setData] = useState([]); // To store all services
   const [ratings, setRatings] = useState({}); // To store ratings for each service
   const [currentUsername, setCurrentUsername] = useState("");
-  const authorizedUsername = "sarvil90897876765653";
+  const authorizedUsernames = ["SarvilRathour", "Shivam"]; // List of authorized usernames
 
   useEffect(() => {
     // Fetch data on component mount
     fetchData();
-    setCurrentUsername("sarvil90897876765653");
+    const usernameFromStorage = localStorage.getItem("username");
+    if (usernameFromStorage) {
+      setCurrentUsername(usernameFromStorage);
+    }
   }, []);
 
   const fetchData = () => {
@@ -125,12 +128,13 @@ function DataDisplay() {
                 Average Rating:{" "}
                 {item.averageRating ? Math.round(item.averageRating) : "N/A"}
               </p>
-              {currentUsername === authorizedUsername && (
+              {/* Check if the current username is in the authorizedUsernames array */}
+              {authorizedUsernames.includes(currentUsername) && (
                 <button
                   className="submit_btn"
                   onClick={() => handleDelete(item._id)}
                 >
-                  Delet
+                  Delete
                 </button>
               )}
             </div>
