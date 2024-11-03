@@ -12,12 +12,14 @@
   padding: 0;
   overflow-y: scroll;
   gap: 30px;
+  background: url(p.jpg);
+  background-size: cover;
 }
 .card_list {
   width:80%;
   min-height: 400px;
   box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.699);
-  border-radius: 5px;
+  border-radius: 10px;
   display: flex;
   justify-content: space-around;
   padding: 15px;
