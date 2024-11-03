@@ -2,7 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+
 const app = express();
 const AUTHORIZED_USERNAME = "sarvil90897876765653";
 const corsOptions = {
@@ -149,8 +149,9 @@ app.post("/", async (req, res) => {
     const check = await collection.findOne({ username: username });
 
     if (check) {
-      // Compare the entered password with the hashed password
-      const isMatch = await bcrypt.compare(password, check.password);
+      // Direct password comparison
+      const isMatch = password === check.password;
+
       if (isMatch) {
         res.json("exist");
       } else {
@@ -179,11 +180,10 @@ app.post("/updateProfile", async (req, res) => {
 });
 app.post("/signup", async (req, res) => {
   const { username, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10); // Hashing with 10 salt rounds
 
   const data = {
     username: username,
-    password: hashedPassword,
+    password: password,
   };
 
   try {
