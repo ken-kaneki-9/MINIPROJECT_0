@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const AUTHORIZED_USERNAME = "sarvil90897876765653";
+const AUTHORIZED_USERNAME = "SarvilRathour";
 const corsOptions = {
   origin: "*", // Allows all origins temporarily
   credentials: true,
@@ -50,6 +50,18 @@ const newSchema = new mongoose.Schema({
     default: [], // Default to an empty array
   },
   averageRating: { type: Number, default: 0 },
+  description: {
+    type: String,
+    required: false,
+  },
+  Email: {
+    type: String,
+    required: false,
+  },
+  timeduration: {
+    type: String,
+    required: false,
+  },
 });
 
 const collection = mongoose.model("usersdatas", newSchema);
@@ -94,10 +106,28 @@ function calculateAverageRating(ratings) {
 }
 
 app.post("/upload-image", async (req, res) => {
-  const { image, username, service, contact, priceRange } = req.body;
+  const {
+    image,
+    username,
+    service,
+    contact,
+    priceRange,
+    description,
+    Email,
+    timeduration,
+  } = req.body;
 
-  if (!image || !username || !service || !contact || !priceRange) {
-    return res.status(400).json("Image data or username is missing");
+  if (
+    !image ||
+    !username ||
+    !service ||
+    !contact ||
+    !priceRange ||
+    !description ||
+    !Email ||
+    !timeduration
+  ) {
+    return res.status(400).json("Image data or data is missing");
   }
 
   try {
@@ -110,6 +140,9 @@ app.post("/upload-image", async (req, res) => {
           service: service,
           contact: contact,
           priceRange: priceRange,
+          description: description,
+          Email: Email,
+          timeduration: timeduration,
         },
       }, // Add or update the image field
       { upsert: true } // Create the document if it doesn't exist
@@ -165,19 +198,46 @@ app.post("/", async (req, res) => {
   }
 });
 app.post("/updateProfile", async (req, res) => {
-  const { username, image, price, description } = req.body;
+  const {
+    username,
+    image,
+    price,
+    description,
+    service,
+    contact,
+    Email,
+    timeduration,
+  } = req.body;
 
   try {
-    // Find and update the user document with new fields
-    await collection.updateOne(
+    // Attempt to update the user document with the new fields
+    const result = await collection.updateOne(
       { username: username },
-      { $set: { image: image, price: price, description: description } }
+      {
+        $set: {
+          image: image,
+          price: price,
+          description: description,
+          service: service,
+          contact: contact,
+          Email: Email,
+          timeduration: timeduration,
+        },
+      }
     );
+
+    if (result.matchedCount === 0) {
+      // If no document matched the username, return a user not found message
+      return res.status(404).json("User not found");
+    }
+
     res.json("Profile updated successfully");
   } catch (e) {
+    console.error("Error updating profile:", e);
     res.status(500).json("Update failed");
   }
 });
+
 app.post("/signup", async (req, res) => {
   const { username, password } = req.body;
 

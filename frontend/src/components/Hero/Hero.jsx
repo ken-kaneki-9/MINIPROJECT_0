@@ -4,18 +4,21 @@ import "./Hero.css";
 
 function DataDisplay() {
   const [data, setData] = useState([]); // To store all services
-  const [rating, setRating] = useState({}); // To store ratings for each service
+  const [ratings, setRatings] = useState({}); // To store ratings for each service
   const [currentUsername, setCurrentUsername] = useState("");
-  const authorizedUsername = "sarvil90897876765653";
+  const authorizedUsernames = "SarvilRathour";
+
   useEffect(() => {
     // Fetch data on component mount
     fetchData();
-    setCurrentUsername("sarvil90897876765653");
+    const usernameFromStorage = localStorage.getItem("username");
+    if (usernameFromStorage) {
+      setCurrentUsername(usernameFromStorage);
+    }
   }, []);
 
   const fetchData = () => {
     axios
-      // .get("https://miniproject-0.onrender.com/fetch-data")
       .get("http://localhost:8000/fetch-data")
       .then((res) => {
         setData(res.data);
@@ -24,7 +27,7 @@ function DataDisplay() {
           acc[item._id] = ""; // Initialize with empty rating
           return acc;
         }, {});
-        setRating(initialRatings);
+        setRatings(initialRatings);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -32,18 +35,12 @@ function DataDisplay() {
       });
   };
 
-  const submitRating = async (usernameToRate) => {
+  const submitRating = async (usernameToRate, ratingValue) => {
     try {
-      const ratingValue = parseInt(rating, 10); // Ensure rating is an integer
-
-      const response = await axios.post(
-        // "https://miniproject-0.onrender.com/submit-review",
-        "http://localhost:8000/submit-review",
-        {
-          usernameToRate, // Pass the username of the user being rated
-          rating: ratingValue, // Include the rating value
-        }
-      );
+      const response = await axios.post("http://localhost:8000/submit-review", {
+        usernameToRate,
+        rating: ratingValue,
+      });
 
       console.log("Rating submitted successfully:", response.data);
       fetchData(); // Re-fetch data to display updated average rating if needed
@@ -55,6 +52,7 @@ function DataDisplay() {
       alert("Failed to submit rating.");
     }
   };
+
   const handleDelete = async (id) => {
     const username = localStorage.getItem("username");
 
@@ -66,7 +64,7 @@ function DataDisplay() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username }), // Make sure the username is being sent
+          body: JSON.stringify({ username }),
         }
       );
 
@@ -76,14 +74,22 @@ function DataDisplay() {
 
       const data = await response.json();
       console.log("Field deleted successfully:", data);
+      fetchData(); // Refresh data after deletion
     } catch (error) {
       console.error("Error deleting field:", error);
     }
   };
 
+  const handleRatingChange = (id, value) => {
+    setRatings((prevRatings) => ({
+      ...prevRatings,
+      [id]: value,
+    }));
+  };
+
   return (
     <div className="hero_container">
-      <h1 className="Heading"> Uploaded Data</h1>
+      <h1 className="Heading">Uploaded Data</h1>
       {data.map((item) => (
         <li key={item._id} className="card_list">
           {item.image && (
@@ -101,11 +107,14 @@ function DataDisplay() {
               <p>Service: {item.service}</p>
               <p>Contact: {item.contact}</p>
               <p>Price Range: {item.priceRange}</p>
+              <p>Description: {item.description}</p>
+              <p>Email: {item.Email}</p>
+              <p>Time: {item.timeduration}</p>
             </div>
             <div className="hero_rating">
               <select
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                value={ratings[item._id] || ""}
+                onChange={(e) => handleRatingChange(item._id, e.target.value)}
               >
                 <option value="" disabled>
                   Select Rating
@@ -116,6 +125,7 @@ function DataDisplay() {
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select>
+
               <button className="submit_btn" onClick={() => submitRating(item.username)}>
                 {" "}
                 {/* Pass username here */}
@@ -138,6 +148,30 @@ function DataDisplay() {
          {item.averageRating ? Math.round(item.averageRating) : "N/A"}
        </p> */}
        
+
+
+              <button
+                className="submit_btn"
+                onClick={() => submitRating(item.username, ratings[item._id])}
+              >
+                Submit Rating
+              </button>
+
+              <p className="Avg_rating">
+                Average Rating:{" "}
+                {item.averageRating ? Math.round(item.averageRating) : "N/A"}
+              </p>
+              {/* Check if the current username is in the authorizedUsernames array */}
+              {authorizedUsernames.includes(currentUsername) && (
+                <button
+                  className="submit_btn"
+                  onClick={() => handleDelete(item._id)}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          </div>
 
         </li>
       ))}
