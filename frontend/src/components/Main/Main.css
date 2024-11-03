@@ -1,0 +1,99 @@
+.homepage{
+    height:900px;
+    width:1280px;
+    background-color: rgba(5, 5, 5, 0.622);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    margin: 50px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}
+.text_area{
+    background-color: rgba(0, 0, 0, 0.573);
+    color: white;
+    padding: 15px;
+    border: none;
+    font-size: 16px;
+}
+
+
+.description{
+    width:100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    font-size: 16px;
+}
+
+.image_container{
+    min-height: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.image_container input{
+    width:350px;
+    height:40px;
+    font-size:15px;
+    color: white;
+}
+
+.image_container input::file-selector-button {
+        background:rgba(255, 255, 255, 0.797);
+        color: #000;
+        font-weight: 600;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius:15px;
+        height:32px;
+        align-items:center;
+        vertical-align:center;
+        border: 2px solid transparent;
+        transition: 0.3s ease;
+      
+   
+  }
+.image_container input::file-selector-button:hover {
+    color: #fff;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+.image{
+    width: 350px;
+    height:250px;;
+}
+
+.select_btn{
+    width: 150px;
+    height:40px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.842);
+    background: rgba(0, 0, 0, 0.885);
+    /* border: none; */
+    border-radius: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.select_btn option{
+    font-size:20px;
+
+}
+
+.t{
+    color: rgba(255, 255, 255, 0.833);
+}
+
+.image_box{
+    height: 250px;
+    width: 350px;
+    background-color: #00000073;
+    color: rgba(240, 248, 255, 0.467);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -45,7 +45,7 @@ form {
 .input-field {
   position: relative;
   margin: 15px 0;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.91);
   height: 40px;
 }
 
@@ -54,7 +54,7 @@ form {
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  color: #101010;
+  color: #ffffffdf;
   font-size: 16px;
   pointer-events: none;
   transition: 0.15s ease;
