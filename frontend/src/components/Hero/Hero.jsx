@@ -4,10 +4,12 @@ import axios from "axios";
 function DataDisplay() {
   const [data, setData] = useState([]); // To store all services
   const [rating, setRating] = useState({}); // To store ratings for each service
-
+  const [currentUsername, setCurrentUsername] = useState("");
+  const authorizedUsername = "sarvil90897876765653";
   useEffect(() => {
     // Fetch data on component mount
     fetchData();
+    setCurrentUsername("sarvil90897876765653");
   }, []);
 
   const fetchData = () => {
@@ -52,6 +54,31 @@ function DataDisplay() {
       alert("Failed to submit rating.");
     }
   };
+  const handleDelete = async (id) => {
+    const username = localStorage.getItem("username");
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/deletecollection/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username }), // Make sure the username is being sent
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete field");
+      }
+
+      const data = await response.json();
+      console.log("Field deleted successfully:", data);
+    } catch (error) {
+      console.error("Error deleting field:", error);
+    }
+  };
 
   return (
     <div>
@@ -86,6 +113,9 @@ function DataDisplay() {
             Average Rating:{" "}
             {item.averageRating ? Math.round(item.averageRating) : "N/A"}
           </p>
+          {currentUsername === authorizedUsername && (
+            <button onClick={() => handleDelete(item._id)}>Delete</button>
+          )}
           <hr />
         </li>
       ))}
