@@ -102,6 +102,9 @@ function DataDisplay() {
               <p>Service: {item.service}</p>
               <p>Contact: {item.contact}</p>
               <p>Price Range: {item.priceRange}</p>
+              <p>Description: {item.description}</p>
+              <p>Email: {item.Email}</p>
+              <p>Time: {item.timeduration}</p>
             </div>
             <div className="hero_rating">
               <select
