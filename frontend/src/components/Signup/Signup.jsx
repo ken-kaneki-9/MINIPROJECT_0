@@ -41,7 +41,7 @@ function Signup() {
   }
 
   return (
-    <div className="signup">
+    <div className="signup login">
       <h1 className="logoo">Signup</h1>
       <div className="postt">
         <form action="POST">
@@ -52,9 +52,8 @@ function Signup() {
                 setUsername(e.target.value); // Set username
               }}
               required
-              placeholder="username"
             />
-            {/* <label htmlFor="">Enter Username</label> */}
+            <label htmlFor="">Enter Username</label>
           </div>
           <div className="input-field">
             <input
@@ -63,11 +62,10 @@ function Signup() {
                 setPassword(e.target.value); // Set password
               }}
               required
-              placeholder="password"
             />
+          <label htmlFor="">Enter Password</label>
           </div>
-          {/* <label htmlFor="">Enter Password</label> */}
-          <input type="submit" className="log-sub" onClick={submit} />
+          <input type="submit" className="log-sub sub" onClick={submit} />
 
           {/* <button type="submit" onClick={submit}>
           Sign Up
@@ -80,10 +78,9 @@ function Signup() {
       <Link to="/">Login Page</Link> {/* Link to the login page */}
       <br />
       <p>
-        if you want just simply see the data not create one
         <Link to="/hero">click here</Link>{" "}
       </p>{" "}
-      {/* Link to the login page */}
+      Link to the login page
     </div>
   );
 }
