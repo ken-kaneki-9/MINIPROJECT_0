@@ -36,25 +36,29 @@ function Login() {
 
   return (
     <div className="login">
-      <h1 className="logo">Login</h1>
       <div className="post">
         <form action="POST">
-          <input
-            type="name"
-            className="inp"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            placeholder="username"
-          />
-          <input
-            type="password"
-            className="pass"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            placeholder="Password"
-          />
+      <h1 className="h">Login</h1>
+          <div className="input-field">
+            <input
+              type="name"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              required
+            />
+            <label>Enter your email</label>
+          </div>
+          <div className="input-field">
+            <input
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
+            />
+            <label>Enter your password</label>
+          </div>
           <input type="submit" className="sub" onClick={submit} />
         </form>
       </div>

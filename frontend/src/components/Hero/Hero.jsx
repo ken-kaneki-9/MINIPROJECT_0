@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./Hero.css";
 
 function DataDisplay() {
   const [data, setData] = useState([]); // To store all services
@@ -81,42 +82,63 @@ function DataDisplay() {
   };
 
   return (
-    <div>
-      <h1>Uploaded Data</h1>
+    <div className="hero_container">
+      <h1 className="Heading"> Uploaded Data</h1>
       {data.map((item) => (
-        <li key={item._id}>
-          <p>Username: {item.username}</p>
-          <p>Service: {item.service}</p>
-          <p>Contact: {item.contact}</p>
-          <p>Price Range: {item.priceRange}</p>
+        <li key={item._id} className="card_list">
           {item.image && (
-            <img src={item.image} alt="Uploaded" width={100} height={100} />
+            <img
+              src={item.image}
+              alt="Uploaded"
+           
+              className="Uploaded_image"
+            />
           )}
-          <div>
-            <select value={rating} onChange={(e) => setRating(e.target.value)}>
-              <option value="" disabled>
-                Select Rating
-              </option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <button onClick={() => submitRating(item.username)}>
-              {" "}
-              {/* Pass username here */}
-              Submit Rating
-            </button>
+          <div className="card_info_list">
+            <div className="card_info">
+              <h1 className="User">{item.username}</h1>
+              <p>Username: {item.username}</p>
+              <p>Service: {item.service}</p>
+              <p>Contact: {item.contact}</p>
+              <p>Price Range: {item.priceRange}</p>
+            </div>
+            <div className="hero_rating">
+              <select
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select Rating
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <button className="submit_btn" onClick={() => submitRating(item.username)}>
+                {" "}
+                {/* Pass username here */}
+                Submit Rating
+              </button>
+            <p className="Avg_rating">
+              Average Rating:{" "}
+              {item.averageRating ? Math.round(item.averageRating) : "N/A"}
+            </p>
+            </div>
           </div>
-          <p>
-            Average Rating:{" "}
-            {item.averageRating ? Math.round(item.averageRating) : "N/A"}
-          </p>
-          {currentUsername === authorizedUsername && (
-            <button onClick={() => handleDelete(item._id)}>Delete</button>
-          )}
-          <hr />
+
+       
+
+            <p>
+         Average Rating:{" "}
+         {item.averageRating ? Math.round(item.averageRating) : "N/A"}
+       </p>
+       {currentUsername === authorizedUsername && (
+         <button onClick={() => handleDelete(item._id)}>Delete</button>
+       )}
+       <hr />
+
         </li>
       ))}
     </div>
