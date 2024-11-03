@@ -1,143 +1,162 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Main.css";
 
-function DataDisplay() {
-  const [data, setData] = useState([]);
-  const [ratings, setRatings] = useState({});
-  const [currentUsername, setCurrentUsername] = useState("");
-  const authorizedUsernames = "SarvilRathour"; // Changed to array for better checks
+function Home() {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchData();
-    const usernameFromStorage = localStorage.getItem("username");
-    if (usernameFromStorage) {
-      setCurrentUsername(usernameFromStorage);
-    }
-  }, []);
+  const [image, setImage] = useState("");
+  const [service, setService] = useState("");
+  const [contact, setContact] = useState("");
+  const [Email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
+  const [timeduration, setTimeduration] = useState("");
+  const [priceRange, setPriceRange] = useState("");
 
-  const fetchData = () => {
+  const servicesList = [
+    "Photography",
+    "Catering",
+    "Decoration",
+    "Music",
+    "Videography",
+    "Other",
+  ];
+
+  const convertToBase64 = (e) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+    reader.onerror = (error) => {
+      console.error("Error converting image:", error);
+    };
+  };
+
+  const uploadImage = () => {
     axios
-      .get("http://localhost:8000/fetch-data")
-      .then((res) => {
-        setData(res.data);
-        const initialRatings = res.data.reduce((acc, item) => {
-          acc[item._id] = ""; // Initialize with empty rating
-          return acc;
-        }, {});
-        setRatings(initialRatings);
+      .post("http://localhost:8000/upload-image", {
+        image,
+        username: location.state.id,
+        service,
+        contact,
+        priceRange,
+        description,
+        Email,
+        timeduration,
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        alert("Failed to fetch data.");
-      });
-  };
-
-  const submitRating = async (usernameToRate, ratingValue) => {
-    try {
-      const response = await axios.post("http://localhost:8000/submit-review", {
-        usernameToRate,
-        rating: ratingValue,
-      });
-
-      console.log("Rating submitted successfully:", response.data);
-      fetchData(); // Re-fetch data
-    } catch (error) {
-      console.error("Error submitting rating:", error);
-      alert("Failed to submit rating.");
-    }
-  };
-
-  const handleDelete = async (id) => {
-    const username = localStorage.getItem("username");
-
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/deletecollection/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username }),
+      .then((res) => {
+        if (res.data === "success") {
+          alert("Image uploaded successfully");
+          resetForm();
+          navigate("/hero");
+        } else {
+          alert("Image upload failed");
         }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to delete field");
-      }
-
-      await response.json();
-      fetchData(); // Refresh data after deletion
-    } catch (error) {
-      console.error("Error deleting field:", error);
-    }
+      })
+      .catch((e) => {
+        alert("An error occurred");
+        console.error(e);
+      });
   };
 
-  const handleRatingChange = (id, value) => {
-    setRatings((prevRatings) => ({
-      ...prevRatings,
-      [id]: value,
-    }));
+  const resetForm = () => {
+    setImage("");
+    setService("");
+    setContact("");
+    setPriceRange("");
+    setDescription("");
+    setEmail("");
+    setTimeduration("");
   };
 
   return (
-    <div className="hero_container">
-      <h1 className="Heading">Uploaded Data</h1>
-      {data.map((item) => (
-        <li key={item._id} className="card_list">
-          {item.image && (
-            <img src={item.image} alt="Uploaded" className="Uploaded_image" />
-          )}
-          <div className="card_info_list">
-            <div className="card_info">
-              <h1 className="User">{item.username}</h1>
-              <p>Service: {item.service}</p>
-              <p>Contact: {item.contact}</p>
-              <p>Price Range: {item.priceRange}</p>
-              <p>Description: {item.description}</p>
-              <p>Email: {item.Email}</p>
-              <p>Time: {item.timeduration}</p>
-            </div>
-            <div className="hero_rating">
-              <select
-                value={ratings[item._id] || ""}
-                onChange={(e) => handleRatingChange(item._id, e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Rating
-                </option>
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <option key={rating} value={rating}>
-                    {rating}
-                  </option>
-                ))}
-              </select>
+    <div className="homepage">
+      <h1 className="t">Hello {location.state.id} and welcome to the home</h1>
+      <h1 className="t">Let's upload</h1>
 
-              <button
-                className="submit_btn"
-                onClick={() => submitRating(item.username, ratings[item._id])}
-              >
-                Submit Rating
-              </button>
-              {authorizedUsernames.includes(currentUsername) && (
-                <button
-                  className="submit_btn"
-                  onClick={() => handleDelete(item._id)}
-                >
-                  Delete
-                </button>
-              )}
-              <p className="Avg_rating">
-                Average Rating:{" "}
-                {item.averageRating ? Math.round(item.averageRating) : "N/A"}
-              </p>
-            </div>
-          </div>
-        </li>
-      ))}
+      <div className="image_container">
+        <input accept="image/*" type="file" onChange={convertToBase64} />
+        {image && <img className="image" src={image} alt="Preview" />}
+      </div>
+
+      <div>
+        <label>
+          Service:
+          <select
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+            required
+          >
+            <option value="">Select a service</option>
+            {servicesList.map((serviceName) => (
+              <option key={serviceName} value={serviceName}>
+                {serviceName}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <div className="input-field">
+        <input
+          type="text"
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
+          required
+        />
+        <label>Contact:</label>
+      </div>
+
+      <div className="input-field">
+        <input
+          type="text"
+          value={priceRange}
+          onChange={(e) => setPriceRange(e.target.value)}
+          required
+        />
+        <label>Price Range:</label>
+      </div>
+
+      <div className="description">
+        <label>Description:</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows="3"
+          cols="150"
+          required
+          className="text_area"
+        />
+      </div>
+
+      <div className="input-field">
+        <input
+          type="email"
+          value={Email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <label>Email:</label>
+      </div>
+
+      <div className="input-field">
+        <input
+          type="text"
+          value={timeduration}
+          onChange={(e) => setTimeduration(e.target.value)}
+          required
+        />
+        <label>Time Duration:</label>
+      </div>
+
+      <button className="sub" onClick={uploadImage}>
+        Submit
+      </button>
     </div>
   );
 }
 
-export default DataDisplay;
+export default Home;

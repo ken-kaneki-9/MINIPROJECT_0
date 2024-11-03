@@ -49,7 +49,7 @@ function Login() {
               }}
               required
             />
-            <label>Enter your email</label>
+            <label>Enter your </label>
           </div>
           <div className="input-field">
             <input
