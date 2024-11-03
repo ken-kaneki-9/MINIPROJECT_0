@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+
 function Login() {
   const history = useNavigate();
 
-  const [username, setEmail] = useState("");
+  const [username, setUsername] = useState(""); // Change from username to email as per input type
   const [password, setPassword] = useState("");
 
   async function submit(e) {
@@ -13,20 +14,21 @@ function Login() {
 
     try {
       await axios
-        // .post("https://miniproject-0.onrender.com/", {
         .post("http://localhost:8000/", {
           username,
           password,
         })
         .then((res) => {
-          if (res.data == "exist") {
-            history("/homepage", { state: { id: username } });
-          } else if (res.data == "notexist") {
-            alert("User have not sign up");
+          if (res.data === "exist") {
+            // Save username to local storage
+            localStorage.setItem("username", username);
+            history("/hero", { state: { id: username } });
+          } else if (res.data === "notexist") {
+            alert("User has not signed up");
           }
         })
         .catch((e) => {
-          alert("wrong details");
+          alert("Wrong details");
           console.log(e);
         });
     } catch (e) {
@@ -38,12 +40,12 @@ function Login() {
     <div className="login">
       <div className="post">
         <form action="POST">
-      <h1 className="h">Login</h1>
+          <h1 className="h">Login</h1>
           <div className="input-field">
             <input
-              type="name"
+              type="text" // Changed type to text for username/email
               onChange={(e) => {
-                setEmail(e.target.value);
+                setUsername(e.target.value); // Set username instead of email
               }}
               required
             />

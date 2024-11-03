@@ -93,12 +93,7 @@ function DataDisplay() {
       {data.map((item) => (
         <li key={item._id} className="card_list">
           {item.image && (
-            <img
-              src={item.image}
-              alt="Uploaded"
-           
-              className="Uploaded_image"
-            />
+            <img src={item.image} alt="Uploaded" className="Uploaded_image" />
           )}
           <div className="card_info_list">
             <div className="card_info">
@@ -126,43 +121,13 @@ function DataDisplay() {
                 <option value="5">5</option>
               </select>
 
-              <button className="submit_btn" onClick={() => submitRating(item.username)}>
-                {" "}
-                {/* Pass username here */}
-                Submit Rating
-              </button>
-              {currentUsername === authorizedUsername && (
-         <button className="submit_btn" onClick={() => handleDelete(item._id)}>Delete</button>
-       )}
-            <p className="Avg_rating">
-              Average Rating:{" "}
-              {item.averageRating ? Math.round(item.averageRating) : "N/A"}
-            </p>
-            </div>
-          </div>
-
-       
-
-            {/* <p>
-         Average Rating:{" "}
-         {item.averageRating ? Math.round(item.averageRating) : "N/A"}
-       </p> */}
-       
-
-
               <button
                 className="submit_btn"
                 onClick={() => submitRating(item.username, ratings[item._id])}
               >
                 Submit Rating
               </button>
-
-              <p className="Avg_rating">
-                Average Rating:{" "}
-                {item.averageRating ? Math.round(item.averageRating) : "N/A"}
-              </p>
-              {/* Check if the current username is in the authorizedUsernames array */}
-              {authorizedUsernames.includes(currentUsername) && (
+              {currentUsername === authorizedUsernames && (
                 <button
                   className="submit_btn"
                   onClick={() => handleDelete(item._id)}
@@ -170,9 +135,12 @@ function DataDisplay() {
                   Delete
                 </button>
               )}
+              <p className="Avg_rating">
+                Average Rating:{" "}
+                {item.averageRating ? Math.round(item.averageRating) : "N/A"}
+              </p>
             </div>
           </div>
-
         </li>
       ))}
     </div>
