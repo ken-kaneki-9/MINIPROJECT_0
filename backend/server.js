@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const app = express();
+const AUTHORIZED_USERNAME = "sarvil90897876765653";
 const corsOptions = {
   origin: "*", // Allows all origins temporarily
   credentials: true,
@@ -213,6 +214,42 @@ app.get("/getUser", async (req, res) => {
     res.status(500).json("Error fetching user data");
   }
 });
+const verifyUser = (req, res, next) => {
+  // const username = req.body{"username"}
+  const username = req.body.username;
+  console.log("Incoming username:", username); // Debug log
+  console.log("Authorized username:", AUTHORIZED_USERNAME); // Debug log
+
+  if (username === AUTHORIZED_USERNAME) {
+    next(); // Proceed to delete if username matches
+  } else {
+    console.log("Access denied for username:", username); // Log denied access
+    res.status(403).json({ message: "Access denied. Unauthorized user." });
+  }
+};
+
+app.delete("/api/deletecollection/:id", verifyUser, async (req, res) => {
+  const fieldId = req.params.id;
+  console.log("Attempting to delete field with ID:", fieldId);
+
+  try {
+    const field = await collection.findById(fieldId); // Use the collection model
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" });
+    }
+
+    const result = await collection.findByIdAndDelete(fieldId); // Use the collection model
+    if (!result) {
+      return res.status(500).json({ message: "Failed to delete field" });
+    }
+
+    res.status(200).json({ message: "Field deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting field:", error);
+    res.status(500).json({ message: "Failed to delete field" });
+  }
+});
+
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
