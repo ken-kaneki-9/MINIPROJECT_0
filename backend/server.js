@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const AUTHORIZED_USERNAME = "sarvil90897876765653";
+const AUTHORIZED_USERNAME = "SarvilRathour";
 const corsOptions = {
   origin: "*", // Allows all origins temporarily
   credentials: true,

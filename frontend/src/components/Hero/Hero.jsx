@@ -6,7 +6,7 @@ function DataDisplay() {
   const [data, setData] = useState([]); // To store all services
   const [ratings, setRatings] = useState({}); // To store ratings for each service
   const [currentUsername, setCurrentUsername] = useState("");
-  const authorizedUsernames = ["SarvilRathour", "Shivam"]; // List of authorized usernames
+  const authorizedUsernames = "SarvilRathour";
 
   useEffect(() => {
     // Fetch data on component mount
