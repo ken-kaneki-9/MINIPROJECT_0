@@ -119,6 +119,25 @@ function DataDisplay() {
                 {/* Pass username here */}
                 Submit Rating
               </button>
+
+              {currentUsername === authorizedUsername && (
+         <button className="submit_btn" onClick={() => handleDelete(item._id)}>Delete</button>
+       )}
+            <p className="Avg_rating">
+              Average Rating:{" "}
+              {item.averageRating ? Math.round(item.averageRating) : "N/A"}
+            </p>
+            </div>
+          </div>
+
+       
+
+            {/* <p>
+         Average Rating:{" "}
+         {item.averageRating ? Math.round(item.averageRating) : "N/A"}
+       </p> */}
+       
+
               <p className="Avg_rating">
                 Average Rating:{" "}
                 {item.averageRating ? Math.round(item.averageRating) : "N/A"}
@@ -134,6 +153,7 @@ function DataDisplay() {
             <button onClick={() => handleDelete(item._id)}>Delete</button>
           )}
           <hr />
+
         </li>
       ))}
     </div>

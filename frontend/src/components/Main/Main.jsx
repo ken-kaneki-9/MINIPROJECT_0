@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import '.Main.css'
+
 function Home() {
   const location = useLocation();
   const [image, setImage] = useState("");
