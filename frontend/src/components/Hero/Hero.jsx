@@ -11,6 +11,17 @@ function DataDisplay() {
   const [data, setData] = useState([]); // To store all services
   const [ratings, setRatings] = useState({}); // To store ratings for each service
   const [currentUsername, setCurrentUsername] = useState("");
+  const [selectedService, setSelectedService] = useState(""); // Store selected service for filtering
+
+  const servicesList = [
+    "Photography",
+    "Catering",
+    "Decoration",
+    "Music",
+    "Videography",
+    "Other",
+  ]; // Services list for dropdown
+
   const authorizedUsernames = "SarvilRathour";
 
   useEffect(() => {
@@ -92,10 +103,31 @@ function DataDisplay() {
     }));
   };
 
+  // Filtered data based on selected service
+  const filteredData = selectedService
+    ? data.filter((item) => item.service === selectedService)
+    : data;
+
   return (
     <div className="hero_container">
+      {/* Dropdown for selecting service */}
+      <div className="filter-container">
+        <select
+          className="service-dropdown"
+          value={selectedService}
+          onChange={(e) => setSelectedService(e.target.value)}
+        >
+          <option value="">All Services</option>
+          {servicesList.map((service, index) => (
+            <option key={index} value={service}>
+              {service}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="card_container">
-        {data.map((item) => (
+        {filteredData.map((item) => (
           <li key={item._id} className="card_list">
             <div className="card_list_left">
               <p className="Avg_rating">
@@ -128,24 +160,16 @@ function DataDisplay() {
                   <div className="description"> {item.description} </div>
                   <p className="service">Service: {item.service}</p>
                   <p>Price Range: {item.priceRange}</p>
-                  <p>Duration{item.timeduration}</p>
+                  <p>Duration: {item.timeduration}</p>
                 </div>
                 <div className="hero_rating">
                   <select
-
-                  className="rating_count"
-
                     className="rating_count"
-
                     value={ratings[item._id] || ""}
                     onChange={(e) =>
                       handleRatingChange(item._id, e.target.value)
                     }
                   >
-
-                    <option value="" disabled>
-                    </option>
-
                     <option value="" disabled></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
