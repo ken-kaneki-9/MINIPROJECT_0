@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Hero.css";
+import globe_icon from "../../assets/globe.png";
+import facebook_icon from "../../assets/facebook.png";
+import instagram_icon from "../../assets/instagram.png";
+import contact_logo from "../../assets/contact.png";
+import mail_icon from "../../assets/mail.png";
 
 function DataDisplay() {
   const [data, setData] = useState([]); // To store all services
@@ -89,60 +94,93 @@ function DataDisplay() {
 
   return (
     <div className="hero_container">
-      <h1 className="Heading">Uploaded Data</h1>
-      {data.map((item) => (
-        <li key={item._id} className="card_list">
-          {item.image && (
-            <img src={item.image} alt="Uploaded" className="Uploaded_image" />
-          )}
-          <div className="card_info_list">
-            <div className="card_info">
-              <h1 className="User">{item.username}</h1>
-              <p>Username: {item.username}</p>
-              <p>Service: {item.service}</p>
-              <p>Contact: {item.contact}</p>
-              <p>Price Range: {item.priceRange}</p>
-              <p>Description: {item.description}</p>
-              <p>Email: {item.Email}</p>
-              <p>Time: {item.timeduration}</p>
-            </div>
-            <div className="hero_rating">
-              <select
-                value={ratings[item._id] || ""}
-                onChange={(e) => handleRatingChange(item._id, e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Rating
-                </option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-
-              <button
-                className="submit_btn"
-                onClick={() => submitRating(item.username, ratings[item._id])}
-              >
-                Submit Rating
-              </button>
-              {currentUsername === authorizedUsernames && (
-                <button
-                  className="submit_btn"
-                  onClick={() => handleDelete(item._id)}
-                >
-                  Delete
-                </button>
-              )}
+      <div className="card_container">
+        {data.map((item) => (
+          <li key={item._id} className="card_list">
+            <div className="card_list_left">
               <p className="Avg_rating">
                 Average Rating:{" "}
                 {item.averageRating ? Math.round(item.averageRating) : "N/A"}
               </p>
             </div>
-          </div>
-        </li>
-      ))}
+            <div className="card_list_center">
+              {item.image && (
+                <img
+                  src={item.image}
+                  alt="Uploaded"
+                  className="Uploaded_image"
+                />
+              )}
+
+              <div className="card_info_list">
+                <div className="card_info">
+                  <h1 className="User">{item.username}</h1>
+                  <div className="mail_box">
+                    <img src={mail_icon} alt="" />
+                    {item.Email}
+                  </div>
+                  <div className="contact_button">
+                    <a href="">
+                      <img className="contact_logo" src={contact_logo} alt="" />
+                    </a>
+                    {item.contact}
+                  </div>
+                  <div className="description"> {item.description} </div>
+                  <p className="service">Service: {item.service}</p>
+                  <p>Price Range: {item.priceRange}</p>
+                  <p>Duration{item.timeduration}</p>
+                </div>
+                <div className="hero_rating">
+                  <select
+                    className="rating_count"
+                    value={ratings[item._id] || ""}
+                    onChange={(e) =>
+                      handleRatingChange(item._id, e.target.value)
+                    }
+                  >
+                    <option value="" disabled></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+
+                  <button
+                    className="rating-btn"
+                    onClick={() =>
+                      submitRating(item.username, ratings[item._id])
+                    }
+                  >
+                    Submit Rating
+                  </button>
+                  {currentUsername === authorizedUsernames && (
+                    <button
+                      className="rating-btn"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="card_list_right">
+              <div className="social-icons">
+                <a href="" className="globe">
+                  <img src={globe_icon} alt="" />
+                </a>
+                <a href="" className="facebook">
+                  <img src={facebook_icon} alt="" />
+                </a>
+                <a href="" className="instagram">
+                  <img src={instagram_icon} alt="" />
+                </a>
+              </div>
+            </div>
+          </li>
+        ))}
+      </div>
     </div>
   );
 }
