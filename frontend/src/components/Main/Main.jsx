@@ -5,6 +5,8 @@ import "./Main.css";
 
 function Home() {
   const location = useLocation();
+  const navigate = useNavigate();
+  
   const [image, setImage] = useState("");
   const [service, setService] = useState("");
   const [contact, setContact] = useState("");
@@ -12,7 +14,6 @@ function Home() {
   const [description, setDescription] = useState("");
   const [timeduration, setTimeduration] = useState("");
   const [priceRange, setPriceRange] = useState("");
-  const navigate = useNavigate();
 
   const servicesList = [
     "Photography",
@@ -23,7 +24,7 @@ function Home() {
     "Other",
   ];
 
-  function convertToBase64(e) {
+  const convertToBase64 = (e) => {
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
@@ -32,9 +33,9 @@ function Home() {
     reader.onerror = (error) => {
       console.error("Error converting image:", error);
     };
-  }
+  };
 
-  function uploadImage() {
+  const uploadImage = () => {
     axios
       .post("http://localhost:8000/upload-image", {
         image,
@@ -49,13 +50,7 @@ function Home() {
       .then((res) => {
         if (res.data === "success") {
           alert("Image uploaded successfully");
-          setImage("");
-          setService("");
-          setContact("");
-          setPriceRange("");
-          setDescription("");
-          setEmail("");
-          setTimeduration("");
+          resetForm();
           navigate("/hero");
         } else {
           alert("Image upload failed");
@@ -65,23 +60,27 @@ function Home() {
         alert("An error occurred");
         console.error(e);
       });
-  }
+  };
+
+  const resetForm = () => {
+    setImage("");
+    setService("");
+    setContact("");
+    setPriceRange("");
+    setDescription("");
+    setEmail("");
+    setTimeduration("");
+  };
 
   return (
     <div className="homepage">
-
       <h1 className="t">Hello {location.state.id} and welcome to the home</h1>
       <h1 className="t">Let's upload</h1>
+      
       <div className="image_container">
         <input accept="image/*" type="file" onChange={convertToBase64} />
-        <div className="image_box">
-          {image && <img className="image" src={image} alt="Preview" />}
-        </div>
-
-      <h1>Hello {location.state.id} and welcome to the home</h1>
-      <h1>Let's upload</h1>
-      <input accept="image/*" type="file" onChange={convertToBase64} />
-      {image && <img width={100} height={100} src={image} alt="Preview" />}
+        {image && <img className="image" src={image} alt="Preview" />}
+      </div>
 
       <div>
         <label>
@@ -99,27 +98,7 @@ function Home() {
             ))}
           </select>
         </label>
-
-    </div>
-
-      <div>
-        <label className="input-field t">Service:</label>
-
-        <select
-          className="select_btn"
-          value={service}
-          onChange={(e) => setService(e.target.value)}
-          required
-        >
-          <option value="">Select a service</option>
-          {servicesList.map((serviceName) => (
-            <option key={serviceName} value={serviceName}>
-              {serviceName}
-            </option>
-          ))}
-        </select>
       </div>
-
 
       <div className="input-field">
         <input
@@ -141,14 +120,13 @@ function Home() {
         <label>Price Range:</label>
       </div>
 
-      <div className="description">
+      <div className="description_input">
         <label>Description:</label>
-
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows="3"
-          cols="160" // Adjust rows as needed
+          cols="150"
           required
           className="text_area"
         />
@@ -174,60 +152,9 @@ function Home() {
         <label>Time Duration:</label>
       </div>
 
-      <button className="sub " onClick={uploadImage}>
+      <button className="sub" onClick={uploadImage}>
         Submit
       </button>
-
-      <div>
-        <label>
-          Price Range:
-          <input
-            type="text"
-            value={priceRange}
-            onChange={(e) => setPriceRange(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Description:
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows="5" // Adjust rows as needed
-            required
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Email:
-          <input
-            type="email"
-            value={Email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Time Duration:
-          <input
-            type="text"
-            value={timeduration}
-            onChange={(e) => setTimeduration(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-
-      <button onClick={uploadImage}>Submit</button>
-
     </div>
   );
 }
