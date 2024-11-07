@@ -120,7 +120,7 @@ function Home() {
         <label>Price Range:</label>
       </div>
 
-      <div className="description">
+      <div className="description_input">
         <label>Description:</label>
         <textarea
           value={description}

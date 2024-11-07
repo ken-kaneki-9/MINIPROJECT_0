@@ -132,12 +132,20 @@ function DataDisplay() {
                 </div>
                 <div className="hero_rating">
                   <select
+
+                  className="rating_count"
+
                     className="rating_count"
+
                     value={ratings[item._id] || ""}
                     onChange={(e) =>
                       handleRatingChange(item._id, e.target.value)
                     }
                   >
+
+                    <option value="" disabled>
+                    </option>
+
                     <option value="" disabled></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
