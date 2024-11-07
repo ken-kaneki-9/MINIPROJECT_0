@@ -63,7 +63,7 @@ function Signup() {
               }}
               required
             />
-          <label htmlFor="">Enter Password</label>
+            <label htmlFor="">Enter Password</label>
           </div>
           <input type="submit" className="log-sub sub" onClick={submit} />
 

@@ -6,7 +6,7 @@ import "./Main.css";
 function Home() {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [image, setImage] = useState("");
   const [service, setService] = useState("");
   const [contact, setContact] = useState("");
@@ -76,7 +76,7 @@ function Home() {
     <div className="homepage">
       <h1 className="t">Hello {location.state.id} and welcome to the home</h1>
       <h1 className="t">Let's upload</h1>
-      
+
       <div className="image_container">
         <input accept="image/*" type="file" onChange={convertToBase64} />
         {image && <img className="image" src={image} alt="Preview" />}

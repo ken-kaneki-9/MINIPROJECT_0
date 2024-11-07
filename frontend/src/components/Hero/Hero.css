@@ -141,25 +141,38 @@ a {
   align-items: center;
   min-width: 40px;
   height: 450px;
- 
+
 }
 .card_list_left .Avg_rating {
   rotate: -90deg;
   width: 180px;
   background-color: #8ab7ff;
+
   color:rgb(255, 255, 255) ;
   box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   padding: 5px 5px;
   height:40px;
+
+  color: rgb(255, 255, 255);
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+  padding: 5px 5px;
+  height: 40px;
+
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
 }
 
 .card_list_right {
   min-width: 40px;
+
   height:100%;
 }
 .hero_rating{
+
+  height: 100%;
+}
+.hero_rating {
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,21 +184,47 @@ a {
   flex-direction: column;
   justify-content: space-between;
   gap: 5px;
+
   padding:5px 0;
+
+  padding: 5px 0;
+
   border-bottom-left-radius: 15px;
   border-top-right-radius: 15px;
   background-color: #faebe1e8;
 }
+
 .rating-btn{
+.rating-btn {
+
   width: 110px;
   height: 34px;
   background-color: rgb(247, 102, 102);
   color: white;
+
   border:hidden;
   cursor: pointer;
   border-radius:20px;
   padding:5px 5px;
   transition: all 0.3s;
+
+  border: hidden;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 5px 5px;
+  transition: all 0.3s;
+}
+.rating-btn:hover {
+  border: 3px solid rgb(255, 0, 0);
+}
+
+.rating_count {
+  width: 20px;
+  height: 20px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  border: none;
+
 }
 .rating-btn:hover{
   border:3px solid rgb(255, 0, 0);
